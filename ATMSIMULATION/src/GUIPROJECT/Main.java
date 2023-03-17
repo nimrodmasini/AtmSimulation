@@ -87,10 +87,11 @@ public class Main extends JFrame implements ActionListener{
     public static void deposit(){
 
         int deposit= Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to Deposit"));
-        JOptionPane.showMessageDialog(null,"You have deposited KSh(s)" + deposit + "into your account");
+        JOptionPane.showMessageDialog(null,"You have deposited KSh(s): " + deposit + " into your account");
         int x = JOptionPane.showConfirmDialog(null,"Do you wish to terminate the process");
 
         if (x==0){
+            JOptionPane.showMessageDialog(null,"Thank you for choosing MMU Bank ATM");
             System.exit(0);
         } else if (x==1) {
             Main option = new Main();
@@ -100,10 +101,11 @@ public class Main extends JFrame implements ActionListener{
 
     public static void withdraw(){
         int withdrawal = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to withdraw"));
-        JOptionPane.showMessageDialog(null,"You have withdrawn KSh(s)" + withdrawal + "from your account");
+        JOptionPane.showMessageDialog(null,"You have withdrawn KSh(s): " + withdrawal + " from your account");
         int x = JOptionPane.showConfirmDialog(null,"Do you wish to terminate the process");
 
         if (x==0){
+            JOptionPane.showMessageDialog(null,"Thank you for choosing MMU Bank ATM");
             System.exit(0);
         } else if (x==1) {
             Main option = new Main();
@@ -143,6 +145,8 @@ public class Main extends JFrame implements ActionListener{
 
     public static void main(String[] args) {
         new Main();
+        Main options = new Main();
+        options.afterEntryMenu();
 
     }
 }
