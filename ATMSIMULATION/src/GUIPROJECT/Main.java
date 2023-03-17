@@ -4,7 +4,7 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Scanner;
+
 
 public class Main extends JFrame implements ActionListener{
     private JLabel lblFirstName, lblLastName, lblAccountNumber;
@@ -29,6 +29,11 @@ public class Main extends JFrame implements ActionListener{
         this.pinAttempts = pinAttempts;
     }
 
+    public void entryMenu(){
+        JOptionPane.showMessageDialog(null,"Hello Customer, Welcome to MMU's Bank ATM");
+        new Main();
+    }
+
     public Main() {
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -36,7 +41,7 @@ public class Main extends JFrame implements ActionListener{
         setTitle("Account Details Capture");
         setLayout(new FlowLayout());
 
-        JOptionPane.showMessageDialog(null,"Hello Customer, Welcome to MMU's Bank ATM");
+
 
         lblFirstName = new JLabel("Firstname: ");
         add(lblFirstName);
@@ -62,9 +67,11 @@ public class Main extends JFrame implements ActionListener{
         btnOk.addActionListener(this);
     }
 
+
+
     public void authentication(){
 
-        Scanner input = new Scanner(System.in);
+
         while ((pinAttempts>=3) || (pinAttempts!=0)){
             pinAttempts--;
             JOptionPane.showMessageDialog(this,"Enter Your PIN number \n You ONLY have three attempts" );
@@ -84,6 +91,7 @@ public class Main extends JFrame implements ActionListener{
         }
 
     }
+
     public static void deposit(){
 
         int deposit= Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to Deposit"));
@@ -144,7 +152,8 @@ public class Main extends JFrame implements ActionListener{
     }
 
     public static void main(String[] args) {
-        new Main();
+        Main menu = new Main();
+        menu.entryMenu();
         Main options = new Main();
         options.afterEntryMenu();
 
