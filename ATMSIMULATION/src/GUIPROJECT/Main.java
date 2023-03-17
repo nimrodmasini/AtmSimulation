@@ -4,13 +4,14 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Scanner;
 
 public class Main extends JFrame implements ActionListener{
     private JLabel lblFirstName, lblLastName, lblAccountNumber;
     private JTextField txtFirstName,txtLastName,txtAccountNumber;
     private JButton btnOk, btnClear;
     private int pin = 0000;
-    private int pinAttempts;
+    private int pinAttempts = 3;
 
     public int getPin() {
         return pin;
@@ -57,26 +58,91 @@ public class Main extends JFrame implements ActionListener{
         btnClear = new JButton("Clear");
         add(btnClear);
 
-        JOptionPane.showMessageDialog(this,"Enter Your PIN number \n You ONLY have three attempts" );
-        for(int pinAttempts = 1; pinAttempts <= 3; pinAttempts++){
+        btnClear.addActionListener(this);
+        btnOk.addActionListener(this);
+    }
 
+    public void authentication(){
+
+        Scanner input = new Scanner(System.in);
+        while ((pinAttempts>=3) || (pinAttempts!=0)){
+            pinAttempts--;
+            JOptionPane.showMessageDialog(this,"Enter Your PIN number \n You ONLY have three attempts" );
             pin = Integer.parseInt(JOptionPane.showInputDialog(null,"PIN Capture",JOptionPane.WARNING_MESSAGE));
-            if (pin == 0000){
-                JOptionPane.showMessageDialog(null,"You entered te correct PIN");
+
+            if (pin == 0000) {
+                break;
             }
+            else {
+                JOptionPane.showMessageDialog(null,"Incorrect PIN," + pinAttempts+" attempts remaining");
+
+            }
+        }
+        if (pinAttempts==0){
+            JOptionPane.showMessageDialog(null,"You entered 3 wrong PINs in a row,\nYour Account is locked" );
+
+        }
+
+    }
+    public static void deposit(){
+
+        int deposit= Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to Deposit"));
+        JOptionPane.showMessageDialog(null,"You have deposited KSh(s)" + deposit + "into your account");
+        int x = JOptionPane.showConfirmDialog(null,"Do you wish to terminate the process");
+
+        if (x==0){
+            System.exit(0);
+        } else if (x==1) {
+            Main option = new Main();
+            option.afterEntryMenu();
+        }
+    }
+
+    public static void withdraw(){
+        int withdrawal = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to withdraw"));
+        JOptionPane.showMessageDialog(null,"You have withdrawn KSh(s)" + withdrawal + "from your account");
+        int x = JOptionPane.showConfirmDialog(null,"Do you wish to terminate the process");
+
+        if (x==0){
+            System.exit(0);
+        } else if (x==1) {
+            Main option = new Main();
+            option.afterEntryMenu();
+        }
+
+    }
+
+    public void afterEntryMenu(){
+        JOptionPane.showMessageDialog(null, "Select an Option to continue; \n 1.Deposit\n 2.Withdraw");
+        int option =Integer.parseInt(JOptionPane.showInputDialog(null,txtFirstName.getText() + " write 1 for Deposit or 2 for withdrawal"));
+        if(option == 1){
+           Main options = new Main();
+           options.deposit();
+
+        } else if (option == 2) {
+            Main options = new Main();
+            options.withdraw();
+
         }
     }
 
 
     public void actionPerformed(ActionEvent e){
+        if(e.getSource() == btnClear){
+            txtFirstName.setText("Cleared");
+            txtLastName.setText("Cleared");
+            txtAccountNumber.setText("Cleared");
+        }
         if(e.getSource() == btnOk){
-            btnOk.addActionListener(this);
+            Main Authentication = new Main();
+            Authentication.authentication();
+            setVisible(false);
         }
 
     }
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
         new Main();
+
     }
 }
