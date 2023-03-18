@@ -31,7 +31,8 @@ public class Main extends JFrame implements ActionListener{
 
     public void entryMenu(){
         JOptionPane.showMessageDialog(null,"Hello Customer, Welcome to MMU's Bank ATM");
-        new Main();
+        Main UI = new Main();
+
     }
 
     public Main() {
@@ -69,15 +70,18 @@ public class Main extends JFrame implements ActionListener{
 
 
 
+
     public void authentication(){
 
-
+        JOptionPane.showMessageDialog(this,"Enter Your PIN number \n You ONLY have three attempts" );
         while ((pinAttempts>=3) || (pinAttempts!=0)){
             pinAttempts--;
-            JOptionPane.showMessageDialog(this,"Enter Your PIN number \n You ONLY have three attempts" );
+
             pin = Integer.parseInt(JOptionPane.showInputDialog(null,"PIN Capture",JOptionPane.WARNING_MESSAGE));
 
             if (pin == 0000) {
+                Main menus = new Main();
+                menus.afterEntryMenu();
                 break;
             }
             else {
@@ -90,6 +94,20 @@ public class Main extends JFrame implements ActionListener{
 
         }
 
+    }
+
+    public void afterEntryMenu(){
+        JOptionPane.showMessageDialog(null, "Select an Option to continue; \n 1.Deposit\n 2.Withdraw");
+        int option =Integer.parseInt(JOptionPane.showInputDialog(null,txtFirstName.getText() + " write 1 for Deposit or 2 for withdrawal"));
+        if(option == 1){
+            Main options = new Main();
+            options.deposit();
+
+        } else if (option == 2) {
+            Main options = new Main();
+            options.withdraw();
+
+        }
     }
 
     public static void deposit(){
@@ -107,6 +125,7 @@ public class Main extends JFrame implements ActionListener{
         }
     }
 
+
     public static void withdraw(){
         int withdrawal = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to withdraw"));
         JOptionPane.showMessageDialog(null,"You have withdrawn KSh(s): " + withdrawal + " from your account");
@@ -122,19 +141,7 @@ public class Main extends JFrame implements ActionListener{
 
     }
 
-    public void afterEntryMenu(){
-        JOptionPane.showMessageDialog(null, "Select an Option to continue; \n 1.Deposit\n 2.Withdraw");
-        int option =Integer.parseInt(JOptionPane.showInputDialog(null,txtFirstName.getText() + " write 1 for Deposit or 2 for withdrawal"));
-        if(option == 1){
-           Main options = new Main();
-           options.deposit();
 
-        } else if (option == 2) {
-            Main options = new Main();
-            options.withdraw();
-
-        }
-    }
 
 
     public void actionPerformed(ActionEvent e){
