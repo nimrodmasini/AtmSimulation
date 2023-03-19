@@ -7,14 +7,24 @@ import java.awt.event.*;
 
 
 public class Main extends JFrame implements ActionListener{
-    private JLabel lblFirstName, lblLastName, lblAccountNumber;
-    private JTextField txtFirstName,txtLastName,txtAccountNumber;
+    //Main Menu frame specs
+    private static JLabel lblFirstName;
+    private static JLabel lblLastName;
+    private JLabel lblAccountNumber;
+    private static JTextField txtFirstName;
+    private static JTextField txtLastName;
+    private JTextField txtAccountNumber;
     private JButton btnOk, btnClear;
+    //default PIN
     private int pin = 0000;
     private int pinAttempts = 3;
+    Random random = new Random();
+
+
 
     public int getPin() {
         return pin;
+
     }
 
     public void setPin(int pin) {
@@ -29,16 +39,20 @@ public class Main extends JFrame implements ActionListener{
         this.pinAttempts = pinAttempts;
     }
 
+
+
     public void entryMenu(){
         JOptionPane.showMessageDialog(null,"Hello Customer, Welcome to MMU's Bank ATM");
-        Main UI = new Main();
-
     }
 
+
     public Main() {
+
+    }
+    public void userDetails(){
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400,200);
+        setSize(400,400);
         setTitle("Account Details Capture");
         setLayout(new FlowLayout());
 
@@ -65,11 +79,14 @@ public class Main extends JFrame implements ActionListener{
         add(btnClear);
 
         btnClear.addActionListener(this);
-        btnOk.addActionListener(this);
+        btnOk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                authentication();
+               setVisible(false);
+            }
+        });
     }
-
-
-
 
     public void authentication(){
 
@@ -80,8 +97,7 @@ public class Main extends JFrame implements ActionListener{
             pin = Integer.parseInt(JOptionPane.showInputDialog(null,"PIN Capture",JOptionPane.WARNING_MESSAGE));
 
             if (pin == 0000) {
-                Main menus = new Main();
-                menus.afterEntryMenu();
+                new Services();
                 break;
             }
             else {
@@ -96,73 +112,34 @@ public class Main extends JFrame implements ActionListener{
 
     }
 
-    public void afterEntryMenu(){
-        JOptionPane.showMessageDialog(null, "Select an Option to continue; \n 1.Deposit\n 2.Withdraw");
-        int option =Integer.parseInt(JOptionPane.showInputDialog(null,txtFirstName.getText() + " write 1 for Deposit or 2 for withdrawal"));
-        if(option == 1){
-            Main options = new Main();
-            options.deposit();
-
-        } else if (option == 2) {
-            Main options = new Main();
-            options.withdraw();
-
-        }
-    }
-
-    public static void deposit(){
-
-        int deposit= Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to Deposit"));
-        JOptionPane.showMessageDialog(null,"You have deposited KSh(s): " + deposit + " into your account");
-        int x = JOptionPane.showConfirmDialog(null,"Do you wish to terminate the process");
-
-        if (x==0){
-            JOptionPane.showMessageDialog(null,"Thank you for choosing MMU Bank ATM");
-            System.exit(0);
-        } else if (x==1) {
-            Main option = new Main();
-            option.afterEntryMenu();
-        }
-    }
-
-
-    public static void withdraw(){
-        int withdrawal = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to withdraw"));
-        JOptionPane.showMessageDialog(null,"You have withdrawn KSh(s): " + withdrawal + " from your account");
-        int x = JOptionPane.showConfirmDialog(null,"Do you wish to terminate the process");
-
-        if (x==0){
-            JOptionPane.showMessageDialog(null,"Thank you for choosing MMU Bank ATM");
-            System.exit(0);
-        } else if (x==1) {
-            Main option = new Main();
-            option.afterEntryMenu();
-        }
-
-    }
-
-
-
-
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnClear){
             txtFirstName.setText("Cleared");
             txtLastName.setText("Cleared");
             txtAccountNumber.setText("Cleared");
         }
-        if(e.getSource() == btnOk){
-            Main Authentication = new Main();
-            Authentication.authentication();
-            setVisible(false);
-        }
 
+    }
+    public static void afterEntryMenu(){
+        JOptionPane.showMessageDialog(null, "Select an Option to continue; \n 1.Deposit\n 2.Withdraw");
+        int option =Integer.parseInt(JOptionPane.showInputDialog(null,txtFirstName.getText() + " Write: \n 1. for Deposit \n or \n 2. for withdrawal"));
+        if(option == 1){
+            Main options = new Main();
+
+
+        } else if (option == 2) {
+            Main options = new Main();
+
+
+        }
     }
 
     public static void main(String[] args) {
         Main menu = new Main();
         menu.entryMenu();
-        Main options = new Main();
-        options.afterEntryMenu();
+        Main userInterface = new Main();
+        userInterface.userDetails();
+
 
     }
 }
