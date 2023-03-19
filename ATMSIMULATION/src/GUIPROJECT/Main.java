@@ -8,12 +8,12 @@ import java.awt.event.*;
 
 public class Main extends JFrame implements ActionListener{
     //Main Menu frame specs
-    private static JLabel lblFirstName;
-    private static JLabel lblLastName;
-    private JLabel lblAccountNumber;
-    private static JTextField txtFirstName;
-    private static JTextField txtLastName;
-    private JTextField txtAccountNumber;
+    protected static JLabel lblFirstName;
+    protected static JLabel lblLastName;
+    protected JLabel lblAccountNumber;
+    protected static JTextField txtFirstName;
+    protected static JTextField txtLastName;
+    protected JTextField txtAccountNumber;
     private JButton btnOk, btnClear;
     //default PIN
     private int pin = 0000;

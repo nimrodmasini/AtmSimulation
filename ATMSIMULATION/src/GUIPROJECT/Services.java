@@ -5,11 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static GUIPROJECT.Main.txtFirstName;
 
 
 public class Services extends JFrame implements ActionListener {
 
+    private static float accountBalance = 10000;
     private static float balanceAfterWithdrawal;
+    private static float balanceAfterDeposit;
     private JButton btnDeposit, btnWithdraw, btnCheckBalance, btnExit;
 
     public Services() throws HeadlessException {
@@ -58,14 +61,16 @@ public class Services extends JFrame implements ActionListener {
         });
 
         
-        
+        btnCheckBalance.addActionListener(this);
         
     }
     //deposit method
     public static void deposit(){
 
         int deposit= Integer.parseInt(JOptionPane.showInputDialog(null,"Enter the Amount you wish to Deposit"));
-        JOptionPane.showMessageDialog(null,"You have deposited KSh(s): " + deposit + " into your account");
+        JOptionPane.showMessageDialog(null,txtFirstName.getText() + ", You have deposited KSh(s): " + deposit + " into your account");
+        balanceAfterDeposit = accountBalance + deposit;
+        JOptionPane.showMessageDialog(null,txtFirstName.getText()+ ", Your new account balance is KSh(s): " + balanceAfterDeposit );
         int x = JOptionPane.showConfirmDialog(null,"Do you wish to terminate the process");
 
         if (x==0){
@@ -79,8 +84,14 @@ public class Services extends JFrame implements ActionListener {
     //withdraw method
     public static void withdraw(){
         float withdrawal = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the Amount you wish to withdraw"));
-        JOptionPane.showMessageDialog(null,"You have withdrawn KSh(s): " + withdrawal + " from your account");
-        JOptionPane.showMessageDialog(null,"Your Account Balance is KSh(s): " + balanceAfterWithdrawal);
+        JOptionPane.showMessageDialog(null,txtFirstName.getText() +  ", You have withdrawn KSh(s): " + withdrawal + " from your account");
+        balanceAfterWithdrawal = accountBalance - withdrawal;
+        if(withdrawal < 10000) {
+            JOptionPane.showMessageDialog(null, txtFirstName.getText() + ", Your Account Balance is KSh(s): " + balanceAfterWithdrawal);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Insufficient Account Balance to withdraw.");
+        }
         int x = JOptionPane.showConfirmDialog(null,"Do you wish to terminate the process");
 
         if (x==0){
@@ -93,8 +104,20 @@ public class Services extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-            
+            if(e.getSource() == btnCheckBalance){
+                JOptionPane.showMessageDialog(null, txtFirstName.getText() + "Your Account Balance is KSh(s): " + accountBalance);
+            }
+    }
+    public static void checkBalanceAfterWithdrawal(){
+        JOptionPane.showMessageDialog(null, txtFirstName.getText() + ", Your new Account Balance is KSh(s): " + balanceAfterWithdrawal);
+
+
     }
 
+    public static void checkBalanceAfterDeposit(){
+        JOptionPane.showMessageDialog(null, txtFirstName.getText()  + ", Your new Account Balance is KSh(s): " + balanceAfterDeposit);
+
+
+    }
 
 }
