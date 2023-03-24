@@ -1,13 +1,17 @@
 package GUIPROJECT;
 
-import java.util.Random;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import static GUIPROJECT.Authentication.authentication;
 
 
 public class Main extends JFrame implements ActionListener{
     //Main Menu frame specs
+    private JMenuBar  menuBar = new JMenuBar();
+    private JMenu menuHelp = new JMenu("Help");
+    private JMenuItem navigationHelp = new JMenuItem("Nav Help");
     protected static JLabel lblFirstName;
     protected static JLabel lblLastName;
     protected JLabel lblAccountNumber;
@@ -18,7 +22,7 @@ public class Main extends JFrame implements ActionListener{
     //default PIN
     private int pin = 0000;
     private int pinAttempts = 3;
-    Random random = new Random();
+
 
 
 
@@ -41,41 +45,54 @@ public class Main extends JFrame implements ActionListener{
 
 
 
-    public void entryMenu(){
-        JOptionPane.showMessageDialog(null,"Hello Customer, Welcome to MMU's Bank ATM");
-    }
+
 
 
     public Main() {
+        System.out.println("Main constructor");
 
     }
     public void userDetails(){
+        setJMenuBar(menuBar);
+        menuBar.add(menuHelp);
+        menuHelp.add(navigationHelp);
+        navigationHelp.addActionListener(this);
+
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400,400);
+        setSize(500,400);
         setTitle("Account Details Capture");
-        setLayout(new FlowLayout());
+        setLayout(null);
 
 
 
         lblFirstName = new JLabel("Firstname: ");
+        lblFirstName.setBounds(50,40,70,25);
         add(lblFirstName);
         txtFirstName = new JTextField(20);
+        txtFirstName.setBounds(185,40,170,25);
         add(txtFirstName);
 
         lblLastName = new JLabel("Lastname: ");
+        lblLastName.setBounds(50,80,70,25);
         add(lblLastName);
-        txtLastName = new JTextField(20);
+        txtLastName = new JTextField();
+        txtLastName.setBounds(185,80,170,25);
         add(txtLastName);
 
         lblAccountNumber = new JLabel("Account Number: ");
+        lblAccountNumber.setBounds(50,120,107,25);
         add(lblAccountNumber);
         txtAccountNumber = new JTextField(20);
+        txtAccountNumber.setBounds(185,120,170,25);
         add(txtAccountNumber);
 
         btnOk = new JButton("OK");
+        btnOk.setBounds(110,190,75,25);
         add(btnOk);
+
         btnClear = new JButton("Clear");
+        btnClear.setBounds(185,190,75,25);
         add(btnClear);
 
         btnClear.addActionListener(this);
@@ -88,29 +105,10 @@ public class Main extends JFrame implements ActionListener{
         });
     }
 
-    public void authentication(){
 
-        JOptionPane.showMessageDialog(this,"Enter Your PIN number \n You ONLY have three attempts" );
-        while ((pinAttempts>=3) || (pinAttempts!=0)){
-            pinAttempts--;
 
-            pin = Integer.parseInt(JOptionPane.showInputDialog(null,"PIN Capture",JOptionPane.WARNING_MESSAGE));
 
-            if (pin == 0000) {
-                new Services();
-                break;
-            }
-            else {
-                JOptionPane.showMessageDialog(null,"Incorrect PIN," + pinAttempts+" attempts remaining");
 
-            }
-        }
-        if (pinAttempts==0){
-            JOptionPane.showMessageDialog(null,"You entered 3 wrong PINs in a row,\nYour Account is locked" );
-
-        }
-
-    }
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnClear){
@@ -118,24 +116,14 @@ public class Main extends JFrame implements ActionListener{
             txtLastName.setText("Cleared");
             txtAccountNumber.setText("Cleared");
         }
-
-    }
-    public static void afterEntryMenu(){
-        JOptionPane.showMessageDialog(null, "Select an Option to continue; \n 1.Deposit\n 2.Withdraw");
-        int option =Integer.parseInt(JOptionPane.showInputDialog(null,txtFirstName.getText() + " Write: \n 1. for Deposit \n or \n 2. for withdrawal"));
-        if(option == 1){
-            Main options = new Main();
-
-
-        } else if (option == 2) {
-            Main options = new Main();
-
-
+        if(e.getSource() == navigationHelp){
+            JOptionPane.showMessageDialog(null,"On this window you're supposed to enter: \n 1. First and Last Name \n 2.Account Number \n  or \n use the link www.MMUBank.ac.ke/help");
         }
+
     }
 
-    public static void main(String[] args) {
-        Main menu = new Main();
+       public static void main(String[] args) {
+        Menus menu = new Menus();
         menu.entryMenu();
         Main userInterface = new Main();
         userInterface.userDetails();
