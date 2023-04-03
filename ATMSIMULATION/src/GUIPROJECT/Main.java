@@ -1,10 +1,12 @@
 package GUIPROJECT;
 
-
+import java.sql.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import static GUIPROJECT.Authentication.authentication;
+import java.sql.DriverManager;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 
 public class Main extends JFrame implements ActionListener{
@@ -19,8 +21,8 @@ public class Main extends JFrame implements ActionListener{
     protected static JTextField txtLastName;
     protected JTextField txtAccountNumber;
     private JButton btnOk, btnClear;
-    //default PIN
-    private int pin = 0000;
+//    default PIN
+    private int pin =0000;
     private int pinAttempts = 3;
 
 
@@ -87,7 +89,7 @@ public class Main extends JFrame implements ActionListener{
         txtAccountNumber.setBounds(185,120,170,25);
         add(txtAccountNumber);
 
-        btnOk = new JButton("OK");
+        btnOk = new JButton("Log in");
         btnOk.setBounds(110,190,75,25);
         add(btnOk);
 
@@ -97,11 +99,39 @@ public class Main extends JFrame implements ActionListener{
 
         btnClear.addActionListener(this);
         btnOk.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                authentication();
-               setVisible(false);
+            public void actionPerformed(ActionEvent evt){
+                try{
+                   Class.forName("com.mysql.jdbc.Driver"); 
+                   Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false","root","mamasboy");
+                   String firstName = txtFirstName.getText();
+                   String lastName = txtLastName.getText();
+                   String accountNumber = txtAccountNumber.getText();
+                   
+                   Statement stm = con.createStatement();
+                   String sql = "select * from login where first_name='" + firstName + "' and last_name = '" + lastName + "' and password = '" + accountNumber + "'";
+                   ResultSet rst = stm.executeQuery(sql);
+                   
+                   if(rst.next()){
+                       dispose();
+                       authentication();
+                   }
+                   else{
+                       JOptionPane.showMessageDialog(null, "Username or password is incorrect");
+                       txtFirstName.setText("");
+                       txtLastName.setText("");
+                       txtAccountNumber.setText("");
+                   }
+                   con.close();
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
             }
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                authentication();
+//               setVisible(false);
+//            }
         });
     }
 

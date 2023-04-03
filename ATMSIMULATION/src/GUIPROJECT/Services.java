@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static GUIPROJECT.Main.txtFirstName;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 
 public class Services extends JFrame implements ActionListener {
